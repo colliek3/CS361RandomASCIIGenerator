@@ -290,7 +290,7 @@ FESTIVE = {
   """,
   "Happy Thanksgiving!": r"""\ 
   
-  """,
+  """, # maybe a turkey?
   "Happy Independence Day!": r"""\ 
   ⠀⠀⣶⣴⣿⡗⢲⣶⣦⣄⠠⡀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣀⠀
 ⠀⠀⣿⠋⣿⣿⣿⣟⣙⣿⣿⣿⡟⢻⣷⣿⣷⢂⣶⣦⣤⣆⣂⣶⣤⣤⡔⠒⠒⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠁⠈⠁
@@ -382,13 +382,23 @@ FESTIVE = {
   """
 }
 
+test_art = r'''
+ ___________  _______   ________  ___________           __        _______  ___________  
+("     _   ")/"     "| /"       )("     _   ")         /""\      /"      \("     _   ") 
+ )__/  \\__/(: ______)(:   \___/  )__/  \\__/         /    \    |:        |)__/  \\__/  
+    \\_ /    \/    |   \___  \       \\_ /           /' /\  \   |_____/   )   \\_ /     
+    |.  |    // ___)_   __/  \\      |.  |          //  __'  \   //      /    |.  |     
+    \:  |   (:      "| /" \   :)     \:  |         /   /  \\  \ |:  __   \    \:  |     
+     \__|    \_______)(_______/       \__|        (___/    \___)|__|  \___)    \__|     
+                                                                                        
+'''
 
 def get_quote(request: str) -> str:
     if request.strip().lower() == "ascii":
         return random.choice(ASCII)
-    else if request.strip().lower(): #Test this logic, should check if content exists!
+    elif request.strip().lower(): #Test this logic, should check if content exists!
         return random.choice(ASCII) # TODO, change this to check the string against a key for holiday ascii!
-    else
+    else:
         return "Error: send 'ascii' to receive a quote."
 
 
@@ -396,16 +406,16 @@ def get_quote(request: str) -> str:
 def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind('tcp://*:5588')
-    print('Microservice is running on port 5588...')
-
+    socket.bind('tcp://*:6000')
+    print('Microservice is running on port 5555...')
+    
     try:
         while True:   
               # wait for next request from client
-              message = socket.recv_string()
-              response = get_quote(message)
+              message = socket.recv_string() # will need to decode
+              # response = get_quote(message)
               time.sleep(0.5)
-              socket.send_string(response)
+              socket.send_string(test_art.encode('utf-8'))
 
     except KeyboardInterrupt:
         print("Shutting down microservice...")
