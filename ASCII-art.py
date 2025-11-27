@@ -13,7 +13,7 @@ import zmq
 import time
 
 #TODO need testing of this formatting (trying to fit multiline into one line may not work, we shall see)
-ASCII = {
+ASCII = [
     r"""\
 
                                    ._ o o
@@ -268,7 +268,7 @@ ASCII = {
 
       """,
 
-}
+]
 
 #More can absolutely be added as well!
 FESTIVE = {
@@ -382,18 +382,7 @@ FESTIVE = {
   """
 }
 
-test_art = r'''
- ___________  _______   ________  ___________           __        _______  ___________  
-("     _   ")/"     "| /"       )("     _   ")         /""\      /"      \("     _   ") 
- )__/  \\__/(: ______)(:   \___/  )__/  \\__/         /    \    |:        |)__/  \\__/  
-    \\_ /    \/    |   \___  \       \\_ /           /' /\  \   |_____/   )   \\_ /     
-    |.  |    // ___)_   __/  \\      |.  |          //  __'  \   //      /    |.  |     
-    \:  |   (:      "| /" \   :)     \:  |         /   /  \\  \ |:  __   \    \:  |     
-     \__|    \_______)(_______/       \__|        (___/    \___)|__|  \___)    \__|     
-                                                                                        
-'''
-
-def get_quote(request: str) -> str:
+def get_quote(request) -> str:
     if request.strip().lower() == "ascii":
         return random.choice(ASCII)
     elif request.strip().lower(): #Test this logic, should check if content exists!
@@ -406,16 +395,16 @@ def get_quote(request: str) -> str:
 def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind('tcp://*:6000')
+    socket.bind('tcp://*:5577')
     print('Microservice is running on port 5555...')
     
     try:
         while True:   
               # wait for next request from client
-              message = socket.recv_string() # will need to decode
-              # response = get_quote(message)
+              request = socket.recv_string() # will need to decode
+              response = get_quote(request)
               time.sleep(0.5)
-              socket.send_string(test_art.encode('utf-8'))
+              socket.send_string(response)
 
     except KeyboardInterrupt:
         print("Shutting down microservice...")
