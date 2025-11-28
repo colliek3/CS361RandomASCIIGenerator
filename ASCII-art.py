@@ -350,7 +350,7 @@ def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind('tcp://*:5577')
-    print('Microservice is running on port 5555...')
+    print('Microservice is running on port 5577...')
     
     try:
         while True:   
