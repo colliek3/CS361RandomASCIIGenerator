@@ -258,16 +258,7 @@ ASCII = [
 ⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠻⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠟⠉⠻⠛⠟⠛⠛⠋⠁⠀⠉⠉⠉⠙⠛⠛⠛⠛⠛⠻⠟⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 
-      """,
-      r"""\
-
-
-      """,
-      r"""\
-
-
-      """,
-
+      """
 ]
 
 #More can absolutely be added as well!
@@ -354,7 +345,7 @@ def get_quote(request) -> str:
     if request.strip().lower() == "ascii":
         return random.choice(ASCII)
     elif request.strip().lower(): #Test this logic, should check if content exists!
-        return random.choice(ASCII) # TODO, change this to check the string against a key for holiday ascii!
+        return FESTIVE.get(request)
     else:
         return "Error: send 'ascii' to receive a quote."
 
